@@ -1,0 +1,8 @@
+==========================================================================================================
+ ICNELIA : Helper for compile, clean and create run scripts for 
+           an erlang OTP application
+
+ Copyright (C) 2012, Jorge Garrido <jorge.garrido@morelosoft.com>
+
+ All rights reserved.
+==========================================================================================================

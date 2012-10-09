@@ -1,0 +1,59 @@
+ ===== icnelia =====
+
+ icnelia: is a word in nahuatl languaje that means "help"
+
+ Helper for compile, clean and create run scripts for your erlang OTP application
+
+ ===== how to start =====
+
+ clone icnelia repository from github:
+
+	$ git clone https://github.com/jorgegarrido/icnelia.git
+
+ move into icnelia directory:
+
+	$ cd icnelia
+
+ build the project and script:
+
+	$ ./boot
+
+ now you can use the icnelia script in your OTP applications:
+
+ ===== how to use =====
+
+ just place the icnelia script into your main directory of your application
+
+ to compile:
+
+	$ ./icnelia compile
+
+ and it will compile all the code in src directory, also set the compiled files (.beam)
+ under ebin directory
+
+ to clean:
+
+	$ ./icnelia clean
+
+ and it will clean all the compiled code in ebin directoy
+
+ to create a run script:
+
+	$ ./icnelia runner
+
+ and it will create a run script, to start your application (only start and load an erlang shell)
+
+ to create a run daemon script:
+
+	$ ./icnelia runner daemon
+
+ and it will create a run script, to start your application as daemon
+ directories Logs and Pipes must be created by icnelia at this point
+
+ ===== icnelia.config =====
+  
+ ===== examples =====
+
+ ===== LICENSE =====
+ 
+ see LICENSE.txt for more info
