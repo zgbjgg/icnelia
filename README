@@ -65,7 +65,7 @@
 	    
 	    NOTE: YOU MUST CREATE THE PIPES DIRECTORY MANUALLY
  
- logs_dir: here you can define the path to logs used by your application, whe it is running as daemon, for example:
+ logs_dir: here you can define the path to logs used by your application, when it is running as daemon, for example:
 
 	   {logs_dir, "/usr/local/My_Logs/"}.
 
