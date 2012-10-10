@@ -55,27 +55,23 @@
 		
 	{app_deps, [{"MY_DEP", "my_dep/ebin"}]}.
 
- where "MY_DEP" is the name that the run script use to recongnize the path to your dep,
- and "my_dep/ebin" is the path to ebin for the dependencie
+ where "MY_DEP" is the name that the run script use to recongnize the path to your dep, and "my_dep/ebin" is the path to ebin for the dependence
 
  all dependencies must be set on deps directory
 
- pipes_dir: here you can define the path to your pipes directory, it is used when you want
-	    run your application as daemon, for example:
+ pipes_dir: here you can define the path to your pipes directory, it is used when you want to run your application as daemon, for example:
 
 	    {pipes_dir, "/usr/local/My_Pipes/"}.
 	    
 	    NOTE: YOU MUST CREATE THE PIPES DIRECTORY MANUALLY
  
- logs_dir: here you can define the path to logs used by your application, whe it is running as
-           daemon, for example:
+ logs_dir: here you can define the path to logs used by your application, whe it is running as daemon, for example:
 
 	   {logs_dir, "/usr/local/My_Logs/"}.
 
 	   NOTE: YOU MUST CREATE THE LOGS DIRECTORY MANUALLY
 
- erl_opts: here you can set the options to compile the source code, the options are all 
-	   supported by erlang version running, for example:
+ erl_opts: here you can set the options to compile the source code, the options are all supported by erlang version running, for example:
 
 	   {erl_opts, [debug_info]}.
 
