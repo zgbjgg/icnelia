@@ -28,8 +28,7 @@
 
 	$ ./icnelia compile
 
- and it will compile all the code in src directory, also set the compiled files (.beam)
- under ebin directory
+ and it will compile all the code in src directory, also set the compiled files (.beam) under ebin directory
 
  to clean:
 
