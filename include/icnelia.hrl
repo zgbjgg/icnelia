@@ -35,7 +35,16 @@
 -define(msg_d, "cleaning ~s ~n").
 
 % config file (must be called 'icnelia.config').
--define(cfg_file, "icnelia.config").
+-define(config_file, "icnelia.config").
 
 % name for runner script
 -define(run, "run").
+
+% u+x
+-define(u_x, "u+x").
+
+% runner option
+-define(runner(Paths, App), "erl -pa ebin/ " ++ Paths ++ " -eval 'application:start(" ++ App ++ ").'").
+
+% runner d option
+-define(runner_d(Paths, App, Pipes, Logs), "run_erl -daemon " ++ Pipes ++ " " ++ Logs ++ " \"exec erl -pa ebin/ " ++ Paths ++ " -eval 'application:start(" ++ App ++ ").'\"").

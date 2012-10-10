@@ -48,11 +48,36 @@
 	$ ./icnelia runner daemon
 
  and it will create a run script, to start your application as daemon
- directories Logs and Pipes must be created by icnelia at this point
 
  ===== icnelia.config =====
-  
- ===== examples =====
+ 
+ app_deps: here you can define the paths to ebin deps, for example:
+		
+	{app_deps, [{"MY_DEP", "my_dep/ebin"}]}.
+
+ where "MY_DEP" is the name that the run script use to recongnize the path to your dep,
+ and "my_dep/ebin" is the path to ebin for the dependencie
+
+ all dependencies must be set on deps directory
+
+ pipes_dir: here you can define the path to your pipes directory, it is used when you want
+	    run your application as daemon, for example:
+
+	    {pipes_dir, "/usr/local/My_Pipes/"}.
+	    
+	    NOTE: YOU MUST CREATE THE PIPES DIRECTORY MANUALLY
+ 
+ logs_dir: here you can define the path to logs used by your application, whe it is running as
+           daemon, for example:
+
+	   {logs_dir, "/usr/local/My_Logs/"}.
+
+	   NOTE: YOU MUST CREATE THE LOGS DIRECTORY MANUALLY
+
+ erl_opts: here you can set the options to compile the source code, the options are all 
+	   supported by erlang version running, for example:
+
+	   {erl_opts, [debug_info]}.
 
  ===== LICENSE =====
  
