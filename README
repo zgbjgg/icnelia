@@ -16,7 +16,7 @@
 
  build the project and script:
 
-	$ ./boot
+	$ ./booticn
 
  now you can use the icnelia script in your OTP applications:
 
