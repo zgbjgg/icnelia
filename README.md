@@ -5,30 +5,30 @@
 
  Helper for compile, clean and create run scripts for your erlang OTP application
 
- ===== how to start =====
+===== how to start =====
 
- clone icnelia repository from github:
+ Clone icnelia repository from github:
 
 	$ git clone https://github.com/jorgegarrido/icnelia.git
 
- move into icnelia directory: ```$ cd icnelia``` and build the project and script: ```./buiicn```, now you can use 
+ Move into icnelia directory: ```$ cd icnelia``` and build the project and script: ```./buiicn```, now you can use 
  the icnelia script in your Erlang OTP Applications.
 
- ===== how to use =====
+===== how to use =====
 
- just place the icnelia script into your main directory of your application to compile use ```./icnelia compile``` and 
+ Just place the icnelia script into your main directory of your application to compile use ```./icnelia compile``` and 
  compiles all the code in src directory, also set the compiled files (.beam) under ebin directory, to 
  clean use ```./icnelia clean``` and cleans all the compiled code in ebin directory.
 
- to create a run script use ```./icnelia runner``` and creates a run script to start your application 
+ To create a run script use ```./icnelia runner``` and creates a run script to start your application 
  (only start and load an erlang shell).
 
- to create a run daemon script use ```./icnelia runner daemon``` and creates a run script to start your application 
+ To create a run daemon script use ```./icnelia runner daemon``` and creates a run script to start your application 
  as daemon
 
- ===== icnelia.config =====
+===== icnelia.config =====
  
- app_deps: here you can define the paths to ebin deps, for example:
+ ***app_deps***: here you can define the paths to ebin deps, for example:
 		
 	{app_deps, [{"MY_DEP", "my_dep/ebin"}]}.
 
@@ -49,6 +49,6 @@
 
 	   {erl_opts, [debug_info]}.
 
- ===== LICENSE =====
+===== LICENSE =====
  
  see LICENSE.txt for more info
