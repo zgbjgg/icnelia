@@ -1,0 +1,48 @@
+#!/usr/bin/env escript
+
+-define(HEADERS, <<"#!/usr/bin/env escript\n%%! -noshell -noinput\n">>).
+
+main(Args) ->
+    %% Check if rebuild, the recompile the src code
+    case lists:member("rebuild=true", Args) of
+	false ->
+	    ok;
+	true  ->			    
+	    [ file:delete(File) || File <- ls("ebin/*.beam") ]
+    end,
+
+    %% Compile all src code as normally
+    case make:files(ls("src/*.erl"), [{outdir, "ebin"}, {i, "include"}]) of
+        up_to_date ->
+	    ok;
+	error      ->
+	    io:format("error when compiling src\n", []),
+	    halt(0)
+    end,
+
+    %% Load all ebin files into a proplist in the form <code>[{"filename.beam", <<>>}, ...]</code>
+    Beams = [ begin 
+	          {ok, BeamBin} = file:read_file(Beam),
+		  [ _, BeamName ] = string:tokens(Beam, "/"),
+		  {BeamName, BeamBin}
+	      end || Beam <- ls("ebin/*.beam") ],
+    
+    %% Build the zip file (all files into one)
+    Zipped = case zip:create("mem", Beams, [memory]) of
+	         {ok, {"mem", Zip}} ->
+			Zip;
+		 _                  ->
+		    io:format("error to create memory zipped file\n", []),
+		    halt(1)
+	     end,
+
+    %% Finally write to a file  and set permissions
+    Headers = ?HEADERS,
+    ok = file:write_file("icnelia", <<Headers/binary, Zipped/binary>>),
+    [] = os:cmd("chmod u+x icnelia"),
+    io:format("ICNELIA has been compiled, now you can use the icnelia script to\n compile, clean and create run scripts for your Erlang OTP Application\n").
+
+
+%% Listing files on ebin directory!!
+ls(Path) ->
+    lists:filter(fun(X) -> filelib:is_file(X) end, filelib:wildcard(Path)).	

@@ -10,7 +10,7 @@
 
 -export([main/1]).
 
--include("../include/icnelia.hrl").
+-include("icnelia.hrl").
 
 % main function, receives the option for a command
 main(Opts) ->

@@ -64,9 +64,13 @@ clean(_Config) ->
 runner(Config) ->
     AppDeps = icnelia_utils:get_value(app_deps, Config),
     {ok, IoDev} = icnelia_files:get_run_script(),
+%% append lines used as commentaries in script
+    a_comments(deps, IoDev),
 % append lines for path to deps (ebin)
     [ io:format(IoDev, "~s=deps/~s~n", [Name, Path]) || {Name, Path} <- AppDeps ],
     AppName = icnelia_files:get_app_name(),
+%% append lines used as commentaries in script
+    a_comments(startup, IoDev),    
     io:format(IoDev, ?runner(icnelia_utils:get_pa_string([ Name || {Name, _} <- AppDeps ]), AppName), []),
     [] = icnelia_utils:chmod(?run, ?u_x),
     {ok, ?run}.
@@ -75,9 +79,19 @@ runner(Config) ->
 runner_d(Config) ->
     AppDeps = icnelia_utils:get_value(app_deps, Config),
     {ok, IoDev} = icnelia_files:get_run_script(),
-    [ io:format(IoDev, "~s=deps/~s~n", [Name, Path]) || {Name, Path} <- AppDeps ],
+%% append lines used as commentaries in script
+    a_comments(deps, IoDev),
+    [ io:format(IoDev, "~s=~s~n", [Name, Path]) || {Name, Path} <- AppDeps ],
     AppName = icnelia_files:get_app_name(),
     [Pipes, Logs] = [ icnelia_utils:get_value(Key, Config) || Key <- [pipes_dir, logs_dir] ],
+%% append lines used as commentaries in script
+    a_comments(startup, IoDev),    
     io:format(IoDev, ?runner_d(icnelia_utils:get_pa_string([ Name || {Name, _} <- AppDeps ]), AppName, Pipes, Logs), []),     
     [] = icnelia_utils:chmod(?run, ?u_x),
     {ok, ?run}.    
+
+% append comments
+a_comments(deps, IoDev) ->
+    io:format(IoDev, "# Deployment Application Settings\n#-------------------------------------------------\n", []);
+a_comments(startup, IoDev) ->
+    io:format(IoDev, "\n\n# Startup\n#-------------------------------------------------\n", []).

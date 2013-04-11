@@ -16,7 +16,7 @@
 
  build the project and script:
 
-	$ ./booticn
+	$ ./buiicn
 
  now you can use the icnelia script in your OTP applications:
 
@@ -55,8 +55,6 @@
 	{app_deps, [{"MY_DEP", "my_dep/ebin"}]}.
 
  where "MY_DEP" is the name that the run script use to recongnize the path to your dep, and "my_dep/ebin" is the path to ebin for the dependence
-
- all dependencies must be set on deps directory
 
  pipes_dir: here you can define the path to your pipes directory, it is used when you want to run your application as daemon, for example:
 
