@@ -1,4 +1,12 @@
 #!/usr/bin/env escript
+#
+# ICNELIA : Helper for compile, clean and create run scripts for
+#           an erlang OTP application
+#
+# Copyright (C) 2012, Jorge Garrido <jorge.garrido@morelosoft.com>
+# All rights reserved.
+#
+
 
 -define(HEADERS, <<"#!/usr/bin/env escript\n%%! -noshell -noinput\n">>).
 
