@@ -1,4 +1,5 @@
  ===== icnelia =====
+ ====
 
  icnelia: is a word in nahuatl language that means "help"
 
@@ -10,15 +11,8 @@
 
 	$ git clone https://github.com/jorgegarrido/icnelia.git
 
- move into icnelia directory:
-
-	$ cd icnelia
-
- build the project and script:
-
-	$ ./buiicn
-
- now you can use the icnelia script in your OTP applications:
+ move into icnelia directory: ```$ cd icnelia``` and build the project and script: ```./buiicn```, now you can use 
+ the icnelia script in your Erlang OTP Applications.
 
  ===== how to use =====
 
