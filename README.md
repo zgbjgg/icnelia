@@ -1,7 +1,7 @@
 ==== icnelia ==== 
 ====
 
- icnelia: is a word in nahuatl language that means "help"
+ ***icnelia***: is a word in nahuatl language that means "help"
 
  Helper for compile, clean and create run scripts for your erlang OTP application
 
