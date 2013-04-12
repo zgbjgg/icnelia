@@ -24,7 +24,7 @@ cmd(Cmd) ->
 
 % compile cmd
 compile(Config) ->
-    ErlOpts = icnelia_utils:get_value(erl_apts, Config),
+    ErlOpts = icnelia_utils:get_value(erl_opts, Config),
     Modules = icnelia_files:get_files(?src_erl),
     case icnelia_files:get_files(?src_app_src) of
 	[]       ->
@@ -67,7 +67,7 @@ runner(Config) ->
 %% append lines used as commentaries in script
     a_comments(deps, IoDev),
 % append lines for path to deps (ebin)
-    [ io:format(IoDev, "~s=deps/~s~n", [Name, Path]) || {Name, Path} <- AppDeps ],
+    [ io:format(IoDev, "~s=~s~n", [Name, Path]) || {Name, Path} <- AppDeps ],
     AppName = icnelia_files:get_app_name(),
 %% append lines used as commentaries in script
     a_comments(startup, IoDev),    
