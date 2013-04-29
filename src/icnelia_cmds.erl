@@ -77,6 +77,9 @@ runner(Config) ->
 
 % runner daemon cmd
 runner_d(Config) ->
+    runner_d(Config, os:type()).
+
+runner_d(Config, {unix, _}) ->
     AppDeps = icnelia_utils:get_value(app_deps, Config),
     {ok, IoDev} = icnelia_files:get_run_script(),
 %% append lines used as commentaries in script
@@ -88,7 +91,10 @@ runner_d(Config) ->
     a_comments(startup, IoDev),    
     io:format(IoDev, ?runner_d(icnelia_utils:get_pa_string([ Name || {Name, _} <- AppDeps ]), AppName, Pipes, Logs), []),     
     [] = icnelia_utils:chmod(?run, ?u_x),
-    {ok, ?run}.    
+    {ok, ?run};
+runner_d(_Config, {win32, _}) ->
+    io:format("Cannot create a daemon script on WIN32 SYSTEM\n"),
+    {ok, ""}.
 
 % append comments
 a_comments(Type, IoDev) ->
