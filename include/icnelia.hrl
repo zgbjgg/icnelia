@@ -38,7 +38,7 @@
 -define(config_file, "icnelia.config").
 
 % name for runner script
--define(run, case os:type() of {unix, _} -> "run"; {win32, _} -> "run.bat").
+-define(run, case os:type() of {unix, _} -> "run"; {win32, _} -> "run.bat" end).
 
 % u+x
 -define(u_x, "u+x").
