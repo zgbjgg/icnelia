@@ -44,7 +44,12 @@
 -define(u_x, "u+x").
 
 % runner option
--define(runner(Paths, App), "erl -pa ebin/ " ++ Paths ++ " -eval 'application:start(" ++ App ++ ").'").
+-define(runner(Paths, App), case os:type() of 
+			        {unix, _} -> 
+				    "erl -pa ebin/ " ++ Paths ++ " -eval 'application:start(" ++ App ++ ").'";
+				{win32, _} ->
+				    "erl -pa ebin/ " ++ Paths ++ " -eval \"application:start(" ++ App ++ ").\""
+			     end).
 
 % runner d option
 -define(runner_d(Paths, App, Pipes, Logs), "run_erl -daemon " ++ Pipes ++ " " ++ Logs ++ " \"exec erl -pa ebin/ " ++ Paths ++ " -eval 'application:start(" ++ App ++ ").'\"").
