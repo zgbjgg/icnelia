@@ -49,7 +49,12 @@ main(Args) ->
     %%% Finally write to a file  and set permissions
     Headers = ?HEADERS,
     ok = file:write_file("icnelia", <<Headers/binary, Zipped/binary>>),
-    [] = os:cmd("chmod u+x icnelia"),
+    [] = case os:type() of
+             {unix, _}  -> 
+	         os:cmd("chmod u+x icnelia");
+	     {win32, _} ->
+		 []
+	 end,
     io:format("ICNELIA has been compiled, now you can use the icnelia script to\n compile, clean and create run scripts for your Erlang OTP Application\n").
 
 
