@@ -16,7 +16,12 @@ all_atoms(List) ->
 
 % set permissions for a file/script
 chmod(File, Permissions) ->
-    [] = os:cmd("chmod " ++ Permissions ++ " " ++ File).
+    chmod(File, Permissions, os:type()).
+
+chmod(File, Permissions, {unix, _})    ->
+    [] = os:cmd("chmod " ++ Permissions ++ " " ++ File);
+chmod(_File, _Permissions, {win32, _}) ->
+    [].
 
 % get value with key given 
 get_value(KeyLookUp, List) ->

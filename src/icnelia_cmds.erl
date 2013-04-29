@@ -91,7 +91,14 @@ runner_d(Config) ->
     {ok, ?run}.    
 
 % append comments
-a_comments(deps, IoDev) ->
+a_comments(Type, IoDev) ->
+    a_comments(Type, IoDev, os:type()).
+
+a_comments(deps, IoDev, {unix, _})     ->
     io:format(IoDev, "# Deployment Application Settings\n#-------------------------------------------------\n", []);
-a_comments(startup, IoDev) ->
-    io:format(IoDev, "\n\n# Startup\n#-------------------------------------------------\n", []).
+a_comments(deps, IoDev, {win32, _})    ->
+    io:format(IoDev, "REM Deployment Application Settings\nREM-------------------------------------------------\n", []);
+a_comments(startup, IoDev, {unix, _})  ->
+    io:format(IoDev, "\n\n# Startup\n#-------------------------------------------------\n", []);
+a_comments(startup, IoDev, {win32, _}) ->
+    io:format(IoDev, "\n\nREM Startup\nREM-------------------------------------------------\n", []).
