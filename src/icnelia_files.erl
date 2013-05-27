@@ -25,8 +25,7 @@ get_file_config() ->
 	    [];
 	% error to process file
 	{error, FileError} ->
-	    io:format("~s : ~s ~n", [?config_file, FileError]),
-	    halt(2);
+	    {error, FileError};
 	% use the configuration given in icnelia.config
 	{ok, Config}       ->
 	    Config

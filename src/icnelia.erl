@@ -17,12 +17,14 @@
 
 % main function, receives the option for a command
 main(Opts) ->
-    try
-        {ok, _} = processing_cmd(icnelia_utils:all_atoms(Opts))
-    catch 
-	_E:_R ->
+    case catch(processing_cmd(icnelia_utils:all_atoms(Opts))) of
+        {ok, _}            ->  
+	    ok;
+	{error, FileError} ->
+	    syntax(FileError);
+	_                  ->
 	    help()
-   end.
+    end.
 
 % process the cmd, pattern matching with the given option
 processing_cmd([ runner, daemon ])  ->
@@ -37,11 +39,16 @@ processing_cmd([ compile ])         ->
 % help or icnelia?
 help() ->
     io:fwrite(
-"Usage ~s cmd ~n"
-"Valid commands~n"
-"  compile     		: compiles all in src dir and place under ebin dir~n"
-"  clean                : cleans all in ebin dir (compiled)~n"
-"  runner       	: creates a script to run the application~n"
-"  runner daemon        : creates a script to run the application as daemon~n",
+"Usage ~s command ~n"
+"  compile\t\t\tCompile all source code in 'src dir'~n"
+"  clean\t\t\t\tCleans all ebin dir from compiled code (beams)~n"
+"  runner\t\t\tCreates run script for this application~n"
+"  runner daemon\t\t\tCreates run script for this application as daemon~n",
 [filename:basename(escript:script_name())]),
     halt(1).
+
+% error syntaxis 
+syntax({Line, _Mod, Term}) ->
+   io:fwrite("Syntax Error icnelia.config: ~n Line ~p~n ~p~n", [Line, Term]);
+syntax(Other)              ->
+   io:fwrite("Error Parsing icnelia.config: ~p~n", [Other]).

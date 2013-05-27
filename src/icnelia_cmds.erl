@@ -18,6 +18,11 @@
 % command selector 
 cmd(Cmd) ->
     Config = icnelia_files:get_file_config(),
+    cmd(Cmd, {config, Config}).
+
+cmd(_Cmd, {config, {error, FileError}}) ->
+    {error, FileError};
+cmd(Cmd, {config, Config})             ->
     case Cmd of
 	compile  -> compile(Config);
 	clean    -> clean(Config);
@@ -29,6 +34,13 @@ cmd(Cmd) ->
 compile(Config) ->
     ErlOpts = icnelia_utils:get_value(erl_opts, Config),
     Modules = icnelia_files:get_files(?src_erl),
+% ensure that ebin directory exists, otherwise create it!!
+    ok = case filelib:is_dir(?ebin_dir) of
+	     true  -> 
+	         ok;
+	     false ->
+		 file:make_dir(?ebin_dir)
+	 end,
     case icnelia_files:get_files(?src_app_src) of
 	[]       ->
 	    ok;
