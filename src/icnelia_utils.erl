@@ -13,20 +13,29 @@
 
 -export([all_atoms/1, chmod/2, get_value/2, get_pa_string/1]).
 
-% all elements in a list as atoms
+%% @doc all elements in a list as atoms
+%% @spec all_atoms([string()]) -> [atom()]
+-spec all_atoms([string()]) -> [atom()].
 all_atoms(List) ->
     [ list_to_atom(Elem) || Elem <- List ].
 
-% set permissions for a file/script
+%% @doc set permissions for a file/script under unix, win32
+%% @spec chmod(string(),string()) -> []
+-spec chmod(string(),string()) -> [].
 chmod(File, Permissions) ->
     chmod(File, Permissions, os:type()).
 
+%% @doc set permissions for a file/script under unix, win32
+%% @spec chmod(File :: string(), Permissions :: string(), {unix, string()} | {win32, string()}) -> list()
+-spec chmod(File :: string(), Permissions :: string(), {unix, string()} | {win32, string()}) -> list().
 chmod(File, Permissions, {unix, _})    ->
     [] = os:cmd("chmod " ++ Permissions ++ " " ++ File);
 chmod(_File, _Permissions, {win32, _}) ->
     [].
 
-% get value with key given 
+%% @doc get value with key given 
+%% @spec get_value(KeyLookUp :: term(), List :: list()) -> Value :: term()
+-spec get_value(KeyLookUp :: term(), List :: list()) -> Value :: term().
 get_value(KeyLookUp, List) ->
     case [ Value || {Key, Value} <- List, Key == KeyLookUp ] of
 	[]        ->
@@ -35,7 +44,9 @@ get_value(KeyLookUp, List) ->
 	    Value
     end.
 
-% concat the string for pa runner script option
+%% @doc concat the string for pa runner script option
+%% @spec get_pa_string(Es :: list()) -> string()
+-spec get_pa_string(Es :: list()) -> string().
 get_pa_string([]) ->
     "";
 get_pa_string([E | Es]) ->

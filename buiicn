@@ -25,7 +25,7 @@ main(Args) ->
     end,
 
     %%% Compile all src code as normally
-    case make:files(ls("src/*.erl"), [{outdir, "ebin"}, {i, "include"}]) of
+    case make:files(ls("src/*.erl"), [debug_info, {outdir, "ebin"}, {i, "include"}]) of
         up_to_date ->
 	    ok;
 	error      ->

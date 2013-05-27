@@ -17,7 +17,9 @@
 
 -include("../include/icnelia.hrl").
 
-% get config from icnelia.config file
+%% @doc get config from icnelia.config file
+%% @spec get_file_config() -> list() | {error, term()}
+-spec get_file_config() -> list() | {error, term()}.
 get_file_config() ->
     case file:consult(?config_file) of
 	% use a default configuration
@@ -31,16 +33,22 @@ get_file_config() ->
 	    Config
     end.
 
-% get files by wildcard
+%% @doc get files by wildcard
+%% @spec get_files(Wildcard :: string()) -> list()
+-spec get_files(Wildcard :: string()) -> list().
 get_files(Wildcard) ->
     lists:filter(fun(X) -> filelib:is_file(X) end, filelib:wildcard(Wildcard)).
 
-% get application name 
+%% @doc get application name 
+%% @spec get_app_name() -> string()
+-spec get_app_name() -> string().
 get_app_name() ->
     [ File ] = ?MODULE:get_files(?src_app_src),
     {ok, [{application, App, _}]} = file:consult(File),
     atom_to_list(App).
 
-% get run script process to write on it
+%% @doc get run script process to write on it
+%% @spec get_run_script() -> {ok, pid()}
+-spec get_run_script() -> {ok, pid()}.
 get_run_script() ->
     file:open(?run, [write]).

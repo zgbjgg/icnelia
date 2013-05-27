@@ -15,11 +15,16 @@
 
 -include("../include/icnelia.hrl").
 
-% command selector 
+%% @doc command selector
+%% @speccmd(atom()) -> {'error',_} | {'ok',[any()]}
+-spec cmd(atom()) -> {'error',_} | {'ok',[any()]}.
 cmd(Cmd) ->
     Config = icnelia_files:get_file_config(),
     cmd(Cmd, {config, Config}).
 
+%% @doc internal command selector
+%% @spec cmd(Cmd :: atom(), {config, {error, term()} | Config :: list()}) -> {ok, term()} | {error, term()}
+-spec cmd(Cmd :: atom(), {config, Config :: list()}) -> {ok, term()} | {error, term()}.
 cmd(_Cmd, {config, {error, FileError}}) ->
     {error, FileError};
 cmd(Cmd, {config, Config})             ->
@@ -30,7 +35,9 @@ cmd(Cmd, {config, Config})             ->
 	runner_d -> runner_d(Config)
     end.
 
-% compile cmd
+%% @doc compile command
+%% @spec compile(Config :: list()) -> {ok, Beams :: list()}
+-spec compile(Config :: list()) -> {ok, Beams :: list()}.
 compile(Config) ->
     ErlOpts = icnelia_utils:get_value(erl_opts, Config),
     Modules = icnelia_files:get_files(?src_erl),
@@ -60,7 +67,9 @@ compile(Config) ->
 	      end || Module <- Modules ],
     {ok, Beams}.
 
-% clean cmd
+%% @doc clean command
+%% @spec clean([any()]) -> {'ok',['ok']}
+-spec clean([any()]) -> {'ok', ['ok']}.
 clean(_Config) ->
     Beams = icnelia_files:get_files(?ebin_beam),
     case icnelia_files:get_files(?src_app_ebin) of
@@ -75,14 +84,16 @@ clean(_Config) ->
 		end || Beam <- Beams ],
     {ok, Removed}.
  
-% runner cmd
+%% @doc runner command
+%% @spec runner([any()]) -> {'ok',[46 | 97 | 98 | 110 | 114 | 116 | 117,...]}
+-spec runner([any()]) -> {'ok',[46 | 97 | 98 | 110 | 114 | 116 | 117,...]}.
 runner(Config) ->
     AppDeps = icnelia_utils:get_value(app_deps, Config),
     {ok, IoDev} = icnelia_files:get_run_script(),
 %% append lines used as commentaries in script
     a_comments(deps, IoDev),
 % append lines for path to deps (ebin)
-    [ io:format(IoDev, "~s=~s~n", [Name, Path]) || {Name, Path} <- AppDeps ],
+    _ = [ io:format(IoDev, "~s=~s~n", [Name, Path]) || {Name, Path} <- AppDeps ],
     AppName = icnelia_files:get_app_name(),
 %% append lines used as commentaries in script
     a_comments(startup, IoDev),    
@@ -90,16 +101,21 @@ runner(Config) ->
     [] = icnelia_utils:chmod(?run, ?u_x),
     {ok, ?run}.
 
-% runner daemon cmd
+%% @doc runner daemon command
+%% @spec runner_d([any()]) -> {'ok',[46 | 97 | 98 | 110 | 114 | 116 | 117]}
+-spec runner_d([any()]) -> {'ok',[46 | 97 | 98 | 110 | 114 | 116 | 117]}.
 runner_d(Config) ->
     runner_d(Config, os:type()).
 
+%% @doc runner daemon command
+%% @spec runner_d(Config :: list(), {unix, string()} | {win32, string()}) -> {ok, ""}
+-spec runner_d(Config :: list(), {unix, string()} | {win32, string()}) -> {ok, string()}.
 runner_d(Config, {unix, _}) ->
     AppDeps = icnelia_utils:get_value(app_deps, Config),
     {ok, IoDev} = icnelia_files:get_run_script(),
 %% append lines used as commentaries in script
     a_comments(deps, IoDev),
-    [ io:format(IoDev, "~s=~s~n", [Name, Path]) || {Name, Path} <- AppDeps ],
+    _ = [ io:format(IoDev, "~s=~s~n", [Name, Path]) || {Name, Path} <- AppDeps ],
     AppName = icnelia_files:get_app_name(),
     [Pipes, Logs] = [ icnelia_utils:get_value(Key, Config) || Key <- [pipes_dir, logs_dir] ],
 %% append lines used as commentaries in script
@@ -111,10 +127,15 @@ runner_d(_Config, {win32, _}) ->
     io:format("Cannot create a daemon script on WIN32 SYSTEM\n"),
     {ok, ""}.
 
-% append comments
+%% @doc append comments
+%% @spec a_comments('deps' | 'startup',pid()) -> 'ok'
+-spec a_comments('deps' | 'startup',pid()) -> 'ok'.
 a_comments(Type, IoDev) ->
     a_comments(Type, IoDev, os:type()).
 
+%% @doc append comments
+%% @spec a_comments(Type :: atom(), IoDev :: pid(), {unix, string()} | {win32, string()}) -> ok
+-spec a_comments(Type :: atom(), IoDev :: pid(), {unix, string()} | {win32, string()}) -> ok.
 a_comments(deps, IoDev, {unix, _})     ->
     io:format(IoDev, "# Deployment Application Settings\n#-------------------------------------------------\n", []);
 a_comments(deps, IoDev, {win32, _})    ->
